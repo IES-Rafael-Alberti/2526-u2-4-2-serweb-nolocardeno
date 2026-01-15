@@ -9,57 +9,101 @@ Este documento recopila todas las evidencias y respuestas de la practica.
 ### Fase 1: Instalacion y configuracion
 
 1) Servicio Nginx activo
-- Que demuestra:
-- Comando:
+
+He levantado el contenedor de Nginx con docker compose y he verificado que está corriendo correctamente.
+
+- Que demuestra: El contenedor de Nginx está corriendo y activo
+- Comando: `docker compose ps` o `docker ps`
 - Evidencia:
+  ![Requisito 1](evidencias/requisito1.png)
 
 2) Configuracion cargada
-- Que demuestra:
-- Comando:
+
+He ejecutado el test de configuración de Nginx para comprobar que no hay errores de sintaxis en el archivo default.conf.
+
+- Que demuestra: La configuración de Nginx se ha cargado correctamente sin errores de sintaxis
+- Comando: `docker compose exec web nginx -t`
 - Evidencia:
+  ![Requisito 2](evidencias/requisito2.png)
 
 3) Resolucion de nombres
-- Que demuestra:
+
+He accedido desde el navegador usando localhost y también verificando que se resuelve el nombre configurado (paginaDeNolo) y el puerto configurado para verificar que el servidor responde.
+
+- Que demuestra: El navegador resuelve correctamente el nombre de dominio configurado (paginaDeNolo)
 - Evidencia:
+  ![Requisito 3](evidencias/requisito3.png)
 
 4) Contenido Web
-- Que demuestra:
+
+He subido el contenido web mediante SFTP y he verificado que se muestra correctamente en el navegador.
+
+- Que demuestra: El sitio web se visualiza correctamente en el navegador
 - Evidencia:
+  ![Requisito 4](evidencias/requisito4.png)
 
 ### Fase 2: Transferencia SFTP (Filezilla)
 
 5) Conexion SFTP exitosa
-- Que demuestra:
+
+He configurado FileZilla con los datos de conexión (localhost, puerto 2222, usuario y contraseña) y me he conectado al servidor SFTP.
+
+- Que demuestra: Conexión exitosa al servidor SFTP mediante Filezilla
 - Evidencia:
+  ![Requisito 5](evidencias/requisito5.png)
 
 6) Permisos de escritura
-- Que demuestra:
+
+He subido archivos desde FileZilla al servidor SFTP y he comprobado que se guardan correctamente en el volumen compartido.
+
+- Que demuestra: Se pueden subir archivos al servidor SFTP y se reflejan en el volumen compartido
 - Evidencia:
+  ![Requisito 6](evidencias/requisito6.png)
 
 ### Fase 3: Infraestructura Docker
 
 7) Contenedores activos
-- Que demuestra:
-- Comando:
+
+He verificado que los dos contenedores del docker-compose (web y sftp) están corriendo sin problemas.
+
+- Que demuestra: Los dos contenedores (Nginx y SFTP) están ejecutándose correctamente
+- Comando: `docker compose ps` o `docker ps`
 - Evidencia:
+  ![Requisito 7](evidencias/requisito7.png)
 
 8) Persistencia (Volumen compartido)
-- Que demuestra:
+
+He comprobado que los archivos subidos por SFTP son accesibles desde el contenedor de Nginx gracias al volumen compartido.
+
+- Que demuestra: El volumen compartido funciona correctamente entre ambos contenedores
 - Evidencia:
+  ![Requisito 8](evidencias/requisito8.png)
 
 9) Despliegue multi-sitio
-- Que demuestra:
+
+He configurado Nginx para servir el sitio principal en la raíz y otro sitio en la ruta /reloj, y he verificado que ambos funcionan.
+
+- Que demuestra: El servidor Nginx sirve múltiples sitios (root y /reloj)
 - Evidencia:
+  ![Requisito 9](evidencias/requisito9.png)
 
 ### Fase 4: Seguridad HTTPS
 
 10) Cifrado SSL
-- Que demuestra:
+
+He generado un certificado autofirmado y lo he configurado en Nginx para habilitar HTTPS en el puerto 8443.
+
+- Que demuestra: El sitio funciona correctamente con HTTPS usando certificado autofirmado
 - Evidencia:
+  ![Requisito 10](evidencias/requisito10.png)
 
 11) Redireccion forzada
-- Que demuestra:
+
+He configurado Nginx para redirigir automáticamente todas las peticiones HTTP a HTTPS y he verificado que devuelve un código 301.
+
+- Que demuestra: Las peticiones HTTP son redirigidas automáticamente a HTTPS (código 301)
 - Evidencia:
+  ![Requisito 11](evidencias/requisito11.png)
 
 ---
 
