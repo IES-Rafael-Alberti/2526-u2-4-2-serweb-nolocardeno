@@ -1,0 +1,39 @@
+services:
+  # Servicio Web - Nginx
+  web:
+    image: nginx:latest
+    container_name: nginx-web
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - shared-data:/usr/share/nginx/html
+      - ./nginx-selfsigned.crt:/etc/nginx/ssl/nginx-selfsigned.crt:ro
+      - ./nginx-selfsigned.key:/etc/nginx/ssl/nginx-selfsigned.key:ro
+      - ./default.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  # Servicio SFTP
+  sftp:
+    image: atmoz/sftp:latest
+    container_name: sftp-server
+    ports:
+      - "2222:22"
+    volumes:
+      - shared-data:/home/usuario/upload
+    command: usuario:password:1001
+    restart: unless-stopped
+    networks:
+      - app-network
+
+# Volumen compartido entre ambos servicios
+volumes:
+  shared-data:
+    driver: local
+
+# Red para comunicación entre contenedores
+networks:
+  app-network:
+    driver: bridge
